@@ -1,11 +1,1 @@
-{
-  "events": [
-    {
-      "id": "e1",
-      "title": "A dummy event",
-      "date": "2023-02-22",
-      "image": "https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg",
-      "description": "Join this amazing event and connect with fellow developers."
-    }
-  ]
-}
+{"events":[{"title":"test 8","description":"sdfasdf","date":"2024-05-23","image":"https://unsplash.com/photos/person-lying-inside-tent-eT_LOvneI60","id":"127e00c8-9c57-42f3-a18f-abe3fd26c4c8"},{"title":"test7!!! again","description":"test 7","date":"2024-05-17","image":"https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg","id":"faf55f9f-ecf3-4f08-ad3c-4a927ca975d6"},{"title":"test6 ","description":"test 6","date":"2024-05-22","image":"https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg","id":"aa4adf8b-2d34-494a-9231-6d29ce2cf5fb"},{"title":"test","description":"test 5","date":"2024-05-16","image":"https://unsplash.com/photos/person-lying-inside-tent-eT_LOvneI60","id":"41f22419-5263-402c-962a-3436e635fca1"},{"title":"test4","description":"test4","date":"2024-05-03","image":"https://unsplash.com/photos/person-lying-inside-tent-eT_LOvneI60","id":"a28a3e5a-b974-4d0f-a75e-d378f60a18ea"},{"title":"test3","description":"test3","date":"2024-05-23","image":"https://unsplash.com/photos/person-lying-inside-tent-eT_LOvneI60","id":"911a2942-ad13-4dbe-b35f-63812f012ed6"},{"title":"test2 ","description":"test 2","date":"2024-05-10","image":"https://unsplash.com/photos/person-lying-inside-tent-eT_LOvneI60","id":"4ae475e5-32a4-4de9-813a-bf90c9f4b5e4"},{"title":"test","description":"this is a test event","date":"2024-05-21","image":"https://unsplash.com/photos/person-lying-inside-tent-eT_LOvneI60","id":"b9dde27d-0ab2-496a-b55e-48c7fa0516c5"},{"id":"e1","title":"A dummy event","date":"2023-02-22","image":"https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg","description":"Join this amazing event and connect with fellow developers."}]}
