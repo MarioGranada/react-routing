@@ -21,6 +21,8 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', args: 'none' }],
+      // react-router data APIs co-locate loader/action exports with route components
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true, allowExportNames: ['loader', 'action'] }],
     },
   },
 ]);
