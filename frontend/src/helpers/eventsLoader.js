@@ -1,6 +1,7 @@
+import { API_URL } from '../config';
 /* eslint-disable no-throw-literal */
 const eventsLoader = async () => {
-  const response = await fetch('http://localhost:8080/events');
+  const response = await fetch(API_URL + '/events');
   if (!response.ok) {
     // return { isError: true, message: 'Could not fetch events.' };
     throw {

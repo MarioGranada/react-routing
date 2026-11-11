@@ -1,9 +1,10 @@
+import { API_URL } from '../../config';
 /* eslint-disable no-throw-literal */
 import { redirect } from 'react-router-dom';
 
 const deleteAction = async ({ params, request }) => {
   const eventId = params.eventId;
-  const response = await fetch('http://localhost:8080/events/' + eventId, {
+  const response = await fetch(API_URL + '/events/' + eventId, {
     method: request.method,
   });
   if (!response.ok) {
