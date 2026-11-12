@@ -1,14 +1,13 @@
-function isValidText(value) {
-  return value && value.trim().length > 0;
+function isValidText(value, maxLength = 2000) {
+  return typeof value === 'string' && value.trim().length > 0 && value.length <= maxLength;
 }
 
 function isValidDate(value) {
-  const date = new Date(value);
-  return value && date !== 'Invalid Date';
+  return typeof value === 'string' && value.length <= 30 && !Number.isNaN(new Date(value).getTime());
 }
 
 function isValidImageUrl(value) {
-  return value && value.startsWith('http');
+  return typeof value === 'string' && value.length <= 2000 && /^https?:\/\//.test(value);
 }
 
 exports.isValidText = isValidText;

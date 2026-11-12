@@ -56,9 +56,10 @@ router.post('/', async (req, res, next) => {
   }
 
   try {
-    await add(data);
+    const event = await add(data);
+    // Deliberate delay so the frontend's submitting state is visible.
     setTimeout(() => {
-      res.status(201).json({ message: 'Event saved.', event: data });
+      res.status(201).json({ message: 'Event saved.', event });
     }, 1500);
   } catch (error) {
     next(error);
@@ -94,8 +95,8 @@ router.patch('/:id', async (req, res, next) => {
   }
 
   try {
-    await replace(req.params.id, data);
-    res.json({ message: 'Event updated.', event: data });
+    const event = await replace(req.params.id, data);
+    res.json({ message: 'Event updated.', event });
   } catch (error) {
     next(error);
   }

@@ -15,10 +15,11 @@ This document defines the non-negotiable foundations for this repository. Read i
 
 | Layer | Choice | Rationale |
 | --- | --- | --- |
-| Frontend | React 18 (Create React App 5) | The course project is a CRA SPA. |
+| Frontend | React 18 + Vite 8 | Migrated from CRA; static SPA build. |
 | Routing | React Router 6.23 data APIs | Loaders, actions, and nested routes are the focus of the project. |
-| Backend | Express 4 | A small API provides event CRUD. |
-| Persistence | JSON file | No database setup is needed for the course. |
+| Backend | Express 4 | A small API provides event CRUD; runs as a Vercel Function. |
+| Persistence | Supabase Postgres (postgres.js) | Durable storage on serverless hosting; one schema (`react_routing`) in the shared portfolio database. |
+| Hosting | Vercel Services + Cron | SPA and API ship together on one origin; nightly demo reset. |
 | Styling | CSS Modules | Component-scoped styles. |
 
 **Rule of thumb:** a new dependency must solve a concrete problem that the current stack cannot solve cleanly. Justify it in the change that introduces it.
@@ -27,23 +28,27 @@ This document defines the non-negotiable foundations for this repository. Read i
 
 ### 1. Scope
 
-A course project for React Router data APIs. It is intentionally backend-light and unauthenticated; production concerns such as auth, pagination, and durable storage are out of scope.
+A course project for React Router data APIs. It is intentionally backend-light and unauthenticated; production concerns such as auth and pagination are out of scope. The public demo is kept clean by a nightly reset, not by moderation.
 
 ### 2. Environment Isolation
 
-- This project has no runtime secrets. Do not introduce `.env` files unless a real secret or environment-specific URL appears.
-- If configuration is added, use environment variables and document them in the README.
-- Never commit keys, tokens, database URLs, or credentials.
+- Runtime configuration comes from environment variables: `POSTGRES_URL` / `POSTGRES_URL_NON_POOLING` (Supabase integration) and `CRON_SECRET`. Locally they live in the gitignored root `.env.local` (`vercel env pull .env.local`).
+- Document every variable in the README and `AGENTS.md`.
+- Never commit keys, tokens, database URLs, or credentials, and never log them or send database errors to the browser.
 
 ### 3. Architecture
 
 - Routes, loaders, and actions live in `App.js` and `helpers/`; components should not fetch directly.
 - The event detail loader is shared by detail and edit pages through `useRouteLoaderData`.
-- The Express API stays small and validates every mutation.
+- The Express API stays small and validates every mutation (type, length, URL and date checks).
+- Every API route lives under `/api`; the frontend calls the same origin.
+- The backend never reads files at runtime; SQL lives in `backend/db/sql.js`.
+- The reset endpoint refuses any request without `Authorization: Bearer $CRON_SECRET`.
 
 ### 4. Data and State
 
-- `events.json` on the API is the source of truth.
+- The `react_routing.events` table is the source of truth. Schema and seed changes stay idempotent (`npm run db:migrate --prefix backend`).
+- Only touch the `react_routing` schema; the database is shared with other portfolio apps.
 - Loaders return plain data; actions return redirects or validation responses.
 - No client-side cache; navigating re-runs loaders.
 
@@ -55,22 +60,22 @@ A course project for React Router data APIs. It is intentionally backend-light a
 
 ### 6. Quality Gates
 
-- `cd frontend && npm run build` is the main gate.
+- `npm run build --prefix frontend` and `npm run lint --prefix frontend` are the main gates.
 - Manually test list, detail, new, edit, delete, cancel, invalid form input, unknown event id, API down, and direct deep-link navigation.
 - Confirm submit buttons disable while an action is running.
 
 ### 7. Deployment
 
-- Frontend: static CRA build for GitHub Pages with SPA fallback.
-- Backend: a Node host or a Supabase replacement.
-- Move API URLs into environment variables before deploying.
+- One Vercel project (Services in `vercel.json`): `frontend` serves the Vite build with SPA fallback, `backend` runs Express. Pushing to `master` deploys production.
+- The nightly cron `/api/cron/reset` restores the seed data.
+- Delete any test data written to production after verifying.
 
 ## What to Avoid
 
 - Fetching inside components when a loader already exists.
 - Using hooks inside loaders or actions.
 - Duplicating the event detail request in both detail and edit pages.
-- Assuming JSON file storage is durable in production.
+- Writing to local files from the API (not durable or writable on Vercel).
 - Adding authentication without a clear requirement for this routing exercise.
 
 ## Checklist Before Adding Anything New
